@@ -14,17 +14,33 @@ if (!isset($_SESSION['userID'])) {
 
 
 
-$fullday = $conn->checkIfFullDay($_SESSION['userID']);
+// $fullday = $conn->checkPrevDayOnField($_SESSION['userID']);
+// print_r($fullday);
 
-if($fullday->duration > 0){
-    $onFieldDuration =  1- $fullday->duration ;
+// if($fullday->duration > 0){
+//     $onFieldDuration =  1- $fullday->duration ;
 
-    $totalCalls = $conn->totalCallsForOneDay($_SESSION['userID']);
+//     $totalCalls = $conn->totalCallsForOneDay($_SESSION['userID']);
 
-    $PrevCR = $totalCalls->totalcalls/$onFieldDuration;
+//     $PrevCR = $totalCalls->totalcalls/$onFieldDuration;
 
-    echo "PrevDay CR = ".$PrevCR;
+//     echo "PrevDay CR = ".$PrevCR;
 
+// }
+
+$fiveDayOffFieldDuration = $conn->checkFiveDayOnField($_SESSION['userID']);
+
+
+if($fiveDayOffFieldDuration > 0 && $fiveDayOffFieldDuration <= 5){
+    $onFieldDuration = 5 - $fiveDayOffFieldDuration;
+    $fiveDayTotalCalls = $conn->totalCallsFor5Days($_SESSION['userID']);
+
+    $fiveDays = $fiveDayTotalCalls/$onFieldDuration;
+
+    echo round($fiveDays,2);
 }
+
+
+
 
 ?>

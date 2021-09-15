@@ -11,13 +11,16 @@ if (!isset($_SESSION['userID'])) {
 
 
 
-$fullday = $conn->checkIfFullDay($_SESSION['userID']);
+$oneDayDuration = $conn->checkPrevDayOnField($_SESSION['userID']);
+
 $PrevCR = 0;
 //Calculate only if Field Day Duration is greater than Zero
-if ($fullday->duration > 0) {
-    $onFieldDuration =  1- $fullday->duration ;
+if ($oneDayDuration > 0) {
+    $onFieldDuration =  1- $oneDayDuration ;
     $totalCalls = $conn->totalCallsForOneDay($_SESSION['userID']);
-    $PrevCR = $totalCalls->totalcalls/$onFieldDuration;
+    if($onFieldDuration > 0){
+        $PrevCR = $totalCalls->totalcalls/$onFieldDuration;
+    }
 
 }
 
