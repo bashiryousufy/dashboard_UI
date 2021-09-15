@@ -19,9 +19,49 @@ if ($oneDayDuration > 0) {
     $onFieldDuration =  1- $oneDayDuration ;
     $totalCalls = $conn->totalCallsForOneDay($_SESSION['userID']);
     if($onFieldDuration > 0){
-        $PrevCR = $totalCalls->totalcalls/$onFieldDuration;
+        $PrevCR = round($totalCalls->totalcalls/$onFieldDuration,3);
     }
 
+}
+
+
+
+//Prev 5 days calll rate 
+
+$fiveDayOffFieldDuration = $conn->checkFiveDayOnField($_SESSION['userID']);
+
+
+if ($fiveDayOffFieldDuration > 0 && $fiveDayOffFieldDuration <= 5) {
+    $onField5DayDuration = 5 - $fiveDayOffFieldDuration;
+    $fiveDayTotalCalls = $conn->totalCallsFor5Days($_SESSION['userID']);
+
+    $fiveDays = round($fiveDayTotalCalls/$onField5DayDuration,3);
+
+    
+}
+
+
+//Cycle Call Rate
+
+$CycledateRange = $conn->getCycleDates($_SESSION['userID']);
+$origin = new DateTime($CycledateRange->startDate);
+$target = new DateTime($CycledateRange->endDate);
+$interval = $origin->diff($target);
+
+$DateRange = $interval->days;
+
+
+
+
+$cycle = $conn->checkCycleOffField($_SESSION['userID'], $CycledateRange->startDate, $CycledateRange->endDate);
+$cycleCallRate =0;
+if ($cycle > 0) {
+    $totalCycleCalls = $conn->cycleTotalCalls($_SESSION['userID'], $CycledateRange->startDate, $CycledateRange->endDate);
+    $onFieldCycleDuration = $DateRange - $cycle;
+    
+    if($onFieldCycleDuration > 0){
+        $cycleCallRate = round($totalCycleCalls/$onFieldCycleDuration,3);
+    }
 }
 
 
@@ -112,7 +152,7 @@ if ($oneDayDuration > 0) {
                             <!-- small box -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>-</h3>
+                                    <h3><?=$fiveDays;?></h3>
 
                                     <p>P5Days CR</p>
                                 </div>
@@ -127,7 +167,7 @@ if ($oneDayDuration > 0) {
                             <!-- small box -->
                             <div class="small-box bg-danger">
                                 <div class="inner">
-                                    <h3>-</h3>
+                                    <h3><?=$cycleCallRate;?></h3>
 
                                     <p>Current Cycle Call Rate</p>
                                 </div>
@@ -245,7 +285,7 @@ if ($oneDayDuration > 0) {
 
 
 
-            <?php include 'components/footer.php';?>
+
 
             <!-- Control Sidebar -->
             <aside class="control-sidebar control-sidebar-dark">
@@ -254,7 +294,7 @@ if ($oneDayDuration > 0) {
             <!-- /.control-sidebar -->
         </div>
         <!-- ./wrapper -->
-
+        <?php include 'components/footer.php';?>
         <!-- jQuery -->
         <script src="plugins/jquery/jquery.min.js"></script>
         <!-- jQuery UI 1.11.4 -->
