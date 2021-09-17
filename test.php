@@ -67,11 +67,23 @@ $result = $conn->getUserIDFromTeamID(1);
 print_r($result);
 
 ?>
+<!DOCTYPE html>
+<html lang="en">
 
-<div>
-    <h1>Select UserID:</h1>
-    <form action="">
-        <select name="userID" id="userID">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <h1>Select UserID:</h1>
+
+        <select name="userID" id="userID" onchange="this.form.submit()">
             <option value="">Select an ID</option>
             <?php
                     foreach($result as $user):?>
@@ -79,5 +91,34 @@ print_r($result);
 
             <?php endforeach;?>
         </select>
-    </form>
-</div>
+
+
+    </div>
+
+    <div id="data"></div>
+
+
+    <script type="text/javascript">
+    $("#userID").on("change", function(e) {
+        e.preventDefault();
+        var selectedUserID = $('#userID').val();
+
+        $.ajax({
+            type: "POST",
+            data: {
+                userID: selectedUserID
+            },
+            dataType: "JSON",
+            url: "call_rate.php",
+            success: function(response) {
+
+                $("#data").append(response['prevDayCR']);
+
+
+            }
+        });
+    });
+    </script>
+</body>
+
+</html>

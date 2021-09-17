@@ -10,15 +10,6 @@ $userIDs = $conn->getUserIDFromTeamID($teamID);
 
 
 
-
-
-
-
-
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -50,6 +41,7 @@ $userIDs = $conn->getUserIDFromTeamID($teamID);
     <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -67,16 +59,21 @@ $userIDs = $conn->getUserIDFromTeamID($teamID);
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <div class="content-header">
+
+
                 <h1>Select UserID:</h1>
-                <form action="">
-                    <select name="userID" id="userID">
-                        <option value="">Select an User</option>
-                        <?php
+
+                <select name="userID" id="userID" onchange="this.form.submit()">
+                    <option value="">Select an ID</option>
+                    <?php
                     foreach($userIDs as $user):?>
-                        <option value="$user"><?=$user->userID;?></option>
-                        <?php endforeach;?>
-                    </select>
-                </form>
+                    <option value=<?=$user->userID?>><?=$user->userName;?></option>
+
+                    <?php endforeach;?>
+                </select>
+
+
+
             </div>
             <!-- Content Header (Page header) -->
             <div class="content-header">
@@ -100,7 +97,7 @@ $userIDs = $conn->getUserIDFromTeamID($teamID);
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3><?=$PrevCR; ?></h3>
+                                    <h3 id="prevDayCR"></h3>
 
                                     <p>PrevDay CR</p>
                                 </div>
@@ -117,7 +114,7 @@ $userIDs = $conn->getUserIDFromTeamID($teamID);
                             <!-- small box -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3><?=$fiveDays;?></h3>
+                                    <h3 id="prev5DayCR"></h3>
 
                                     <p>P5Days CR</p>
                                 </div>
@@ -132,7 +129,7 @@ $userIDs = $conn->getUserIDFromTeamID($teamID);
                             <!-- small box -->
                             <div class="small-box bg-danger">
                                 <div class="inner">
-                                    <h3><?=$cycleCallRate;?></h3>
+                                    <h3 id="cycleCR"></h3>
 
                                     <p>Current Cycle Call Rate</p>
                                 </div>
@@ -260,6 +257,8 @@ $userIDs = $conn->getUserIDFromTeamID($teamID);
         </div>
         <!-- ./wrapper -->
         <?php include 'components/footer.php';?>
+
+
         <!-- jQuery -->
         <script src="plugins/jquery/jquery.min.js"></script>
         <!-- jQuery UI 1.11.4 -->
@@ -267,6 +266,33 @@ $userIDs = $conn->getUserIDFromTeamID($teamID);
         <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
         <script>
         $.widget.bridge('uibutton', $.ui.button)
+        </script>
+
+        <!-- Getting Call Rate -->
+        <script type="text/javascript">
+        $("#userID").on("change", function(e) {
+            e.preventDefault();
+            var selectedUserID = $('#userID').val();
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    userID: selectedUserID
+                },
+                dataType: "JSON",
+                url: "call_rate.php",
+                cache: false,
+                success: function(response) {
+
+                    $("#prevDayCR").html(response['prevDayCR']);
+                    $("#prev5DayCR").html(response['prev5DayCR']);
+                    $("#cycleCR").html(response['cycleCR']);
+
+                }
+            });
+        });
+        </script>
+
         </script>
         <!-- Bootstrap 4 -->
         <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -292,6 +318,11 @@ $userIDs = $conn->getUserIDFromTeamID($teamID);
         <script src="dist/js/adminlte.js"></script>
         <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
         <script src="dist/js/pages/dashboard.js"></script>
+
+
+
+
+
 </body>
 
 </html>
