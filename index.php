@@ -1,68 +1,21 @@
 <?php 
 require_once('config.php');
 
-session_start();
-$email = "bashiryousufy@gmail.com";
+
 $conn = new Connection();
+$teamID = 1;
 
-if (!isset($_SESSION['userID'])) {
-    $_SESSION['userID'] = $conn->getUserID($email);
-}
-
-
-
-$oneDayDuration = $conn->checkPrevDayOnField($_SESSION['userID']);
-
-$PrevCR = 0;
-//Calculate only if Field Day Duration is greater than Zero
-if ($oneDayDuration > 0) {
-    $onFieldDuration =  1- $oneDayDuration ;
-    $totalCalls = $conn->totalCallsForOneDay($_SESSION['userID']);
-    if($onFieldDuration > 0){
-        $PrevCR = round($totalCalls->totalcalls/$onFieldDuration,3);
-    }
-
-}
-
-
-
-//Prev 5 days calll rate 
-
-$fiveDayOffFieldDuration = $conn->checkFiveDayOnField($_SESSION['userID']);
-
-
-if ($fiveDayOffFieldDuration > 0 && $fiveDayOffFieldDuration <= 5) {
-    $onField5DayDuration = 5 - $fiveDayOffFieldDuration;
-    $fiveDayTotalCalls = $conn->totalCallsFor5Days($_SESSION['userID']);
-
-    $fiveDays = round($fiveDayTotalCalls/$onField5DayDuration,3);
-
-    
-}
-
-
-//Cycle Call Rate
-
-$CycledateRange = $conn->getCycleDates($_SESSION['userID']);
-$origin = new DateTime($CycledateRange->startDate);
-$target = new DateTime($CycledateRange->endDate);
-$interval = $origin->diff($target);
-
-$DateRange = $interval->days;
+$userIDs = $conn->getUserIDFromTeamID($teamID);
 
 
 
 
-$cycle = $conn->checkCycleOffField($_SESSION['userID'], $CycledateRange->startDate, $CycledateRange->endDate);
-$cycleCallRate =0;
-if ($cycle > 0) {
-    $totalCycleCalls = $conn->cycleTotalCalls($_SESSION['userID'], $CycledateRange->startDate, $CycledateRange->endDate);
-    $onFieldCycleDuration = $DateRange - $cycle;
-    
-    if($onFieldCycleDuration > 0){
-        $cycleCallRate = round($totalCycleCalls/$onFieldCycleDuration,3);
-    }
-}
+
+
+
+
+
+
 
 
 
@@ -113,6 +66,18 @@ if ($cycle > 0) {
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
+            <div class="content-header">
+                <h1>Select UserID:</h1>
+                <form action="">
+                    <select name="userID" id="userID">
+                        <option value="">Select an User</option>
+                        <?php
+                    foreach($userIDs as $user):?>
+                        <option value="$user"><?=$user->userID;?></option>
+                        <?php endforeach;?>
+                    </select>
+                </form>
+            </div>
             <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="container-fluid">
