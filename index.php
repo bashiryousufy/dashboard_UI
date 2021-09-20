@@ -65,6 +65,7 @@ $callTarget = $conn->teamCallTarget($teamID);
                 <h1>Select UserID:</h1>
 
                 <select name="userID" id="userID" onchange="this.form.submit()">
+                    <option value="select_user">Select an USER</option>
                     <?php
                     foreach($userIDs as $user):?>
                     <option value=<?=$user->userID?>><?=$user->userName;?></option>
@@ -93,7 +94,48 @@ $callTarget = $conn->teamCallTarget($teamID);
                 <div class="container-fluid">
                     <!-- displaying the Call Rate  -->
                     <div class="row" id="kpi_cr">
+                        <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box bg-light">
+                                <div class="inner">
+                                    <h3 id="prevDayCR">-</h3>
 
+                                    <p>Yesterday's CR</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-android-call"></i>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box bg-light">
+                                <div class="inner">
+                                    <h3 id="prevDayCR">-</h3>
+
+                                    <p>Previous 5 days CR</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-stats-bars"></i>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box bg-light">
+                                <div class="inner">
+                                    <h3 id="prevDayCR">-</h3>
+
+                                    <p>Previous Cycle CR</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-android-sync"></i>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div> <!-- /.row -->
 
@@ -227,22 +269,31 @@ $callTarget = $conn->teamCallTarget($teamID);
             e.preventDefault();
 
             var selectedUserID = $('#userID').val();
-            $.ajax({
-                type: "POST",
-                data: {
-                    userID: selectedUserID,
-                    teamID: 1,
-                },
-                url: "call_rate.php",
-                cache: false,
-                success: function(response) {
+            if (selectedUserID == "select_user") {
+                $("#preDay").addClass("bg-light");
+                $("#pre5").addClass("bg-light");
+                $("#preCycle").addClass("bg-light");
+                $("#prevDayCR").html("User not selected!");
+                $("#prev5DayCR").html("User not selected!");
+                $("#cycleCR").html("User not selected!");
 
-                    $('#kpi_cr').html(response);
+            } else {
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        userID: selectedUserID,
+                        teamID: 1,
+                    },
+                    url: "call_rate.php",
+                    cache: false,
+                    success: function(response) {
 
-                }
+                        $('#kpi_cr').html(response);
 
+                    }
 
-            });
+                });
+            }
 
 
 

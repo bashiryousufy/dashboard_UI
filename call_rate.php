@@ -111,7 +111,7 @@ if ($cycle > 0) {
 $json_prevCR = '<div class="col-lg-3 col-6">
                             <!-- small box -->
                             <div class="small-box '.$prevCRColor.'" >
-                                <div class="inner">
+                                <div class="inner" id="preDay">
                                     <h3 id="prevDayCR">'.$PrevCR.'</h3>
 
                                     <p>PrevDay CR</p>
@@ -127,7 +127,7 @@ $json_prevCR = '<div class="col-lg-3 col-6">
 $json_prev5days = '<div class="col-lg-3 col-6">
                             <!-- small box -->
                             <div class="small-box '.$prev5CRColor.'" id="prev5DayColor">
-                                <div class="inner">
+                                <div class="inner" id="pre5">
                                     <h3 id="prev5DayCR">'.$fiveDays.'</h3>
 
                                     <p>P5Days CR</p>
@@ -143,7 +143,7 @@ $json_prev5days = '<div class="col-lg-3 col-6">
 $json_prevCycle = ' <div class="col-lg-3 col-6">
                             <!-- small box -->
                             <div class="small-box '.$prevCycleCRColor.'" id="prevCycleColor">
-                                <div class="inner">
+                                <div class="inner" id="preCycle">
                                     <h3 id="cycleCR">'.$cycleCallRate.'</h3>
 
                                     <p>Current Cycle Call Rate</p>
