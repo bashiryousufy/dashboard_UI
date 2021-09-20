@@ -1,4 +1,5 @@
 <?php 
+
 require_once('config.php');
 
 
@@ -6,7 +7,7 @@ $conn = new Connection();
 $teamID = 1;
 
 $userIDs = $conn->getUserIDFromTeamID($teamID);
-
+$callTarget = $conn->teamCallTarget($teamID);
 
 
 
@@ -64,7 +65,6 @@ $userIDs = $conn->getUserIDFromTeamID($teamID);
                 <h1>Select UserID:</h1>
 
                 <select name="userID" id="userID" onchange="this.form.submit()">
-                    <option value="">Select an ID</option>
                     <?php
                     foreach($userIDs as $user):?>
                     <option value=<?=$user->userID?>><?=$user->userName;?></option>
@@ -91,55 +91,8 @@ $userIDs = $conn->getUserIDFromTeamID($teamID);
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
-                    <!-- Small boxes (Stat box) -->
-                    <div class="row">
-                        <div class="col-lg-3 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                    <h3 id="prevDayCR"></h3>
-
-                                    <p>PrevDay CR</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-android-call"></i>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <!-- <sup style="font-size: 20px">%</sup> -->
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-success">
-                                <div class="inner">
-                                    <h3 id="prev5DayCR"></h3>
-
-                                    <p>P5Days CR</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-stats-bars"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-danger">
-                                <div class="inner">
-                                    <h3 id="cycleCR"></h3>
-
-                                    <p>Current Cycle Call Rate</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-android-sync"></i>
-                                </div>
-
-                            </div>
-                        </div>
-
+                    <!-- displaying the Call Rate  -->
+                    <div class="row" id="kpi_cr">
 
                     </div>
                 </div> <!-- /.row -->
@@ -272,24 +225,27 @@ $userIDs = $conn->getUserIDFromTeamID($teamID);
         <script type="text/javascript">
         $("#userID").on("change", function(e) {
             e.preventDefault();
-            var selectedUserID = $('#userID').val();
 
+            var selectedUserID = $('#userID').val();
             $.ajax({
                 type: "POST",
                 data: {
-                    userID: selectedUserID
+                    userID: selectedUserID,
+                    teamID: 1,
                 },
-                dataType: "JSON",
                 url: "call_rate.php",
                 cache: false,
                 success: function(response) {
 
-                    $("#prevDayCR").html(response['prevDayCR']);
-                    $("#prev5DayCR").html(response['prev5DayCR']);
-                    $("#cycleCR").html(response['cycleCR']);
+                    $('#kpi_cr').html(response);
 
                 }
+
+
             });
+
+
+
         });
         </script>
 

@@ -9,6 +9,7 @@ if (!isset($_SESSION['userID'])) {
     $_SESSION['userID'] = $conn->getUserID($email);
 }
 
+print_r($conn->teamCallTarget(1));
 
 
 
@@ -65,6 +66,8 @@ if (!isset($_SESSION['userID'])) {
 
 $result = $conn->getUserIDFromTeamID(1);
 print_r($result);
+
+
 
 ?>
 <!DOCTYPE html>
