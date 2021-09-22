@@ -166,7 +166,7 @@ $callTarget = $conn->teamCallTarget($teamID);
                                         <i class="far fa-chart-bar"></i>
                                         jQuery Knob
                                     </h3>
-
+                                    <div id="reachclass"></div>
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                             <i class="fas fa-minus"></i>
@@ -287,9 +287,8 @@ $callTarget = $conn->teamCallTarget($teamID);
                     url: "call_rate.php",
                     cache: false,
                     success: function(response) {
-
                         $('#kpi_cr').html(response);
-
+                        getReacClass(selectedUserID);
                     }
 
                 });
@@ -298,6 +297,24 @@ $callTarget = $conn->teamCallTarget($teamID);
 
 
         });
+
+        function getReacClass(selectedUserID) {
+            $.ajax({
+                type: "POST",
+                data: {
+                    userID: selectedUserID,
+                    teamID: 1,
+                },
+                url: "reach_class_percentage.php",
+                cache: false,
+                success: function(response) {
+
+                    $('#reachclass').html(response);
+
+                }
+
+            });
+        }
         </script>
 
         </script>
