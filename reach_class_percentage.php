@@ -52,6 +52,23 @@ foreach ($hcpCLass as $HC) {
     $hcpCLassNotObject[$HC->classDesc] = $conn->getTotalCallUsingHcpID($HC->hcpID);
 }
 
-print_r($hcpCLassNotObject);
+//cycle range 
+$cycleRange = $conn->getCycleDates($userID);
+$origin = new DateTime($cycleRange->startDate);
+$target = new DateTime($cycleRange->endDate);
+$interval = $origin->diff($target);
 
+$DateRange = $interval->days;
+
+
+//getting daily target in a territory
+$dailyTarget = $conn->getDailyTargetCalls($territoryConfigID);
+
+// Calculating % reach for each class
+$classPercentage = array();
+foreach($hcpCLassNotObject as $key => $value){
+    $classPercentage[$key] = ($value/($DateRange))*100;
+}
+
+print_r($classPercentage);
 ?>
