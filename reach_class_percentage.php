@@ -67,8 +67,18 @@ $dailyTarget = $conn->getDailyTargetCalls($territoryConfigID);
 // Calculating % reach for each class
 $classPercentage = array();
 foreach($hcpCLassNotObject as $key => $value){
-    $classPercentage[$key] = ($value/($DateRange))*100;
+    $classPercentage[$key] = ($value/($DateRange*$dailyTarget))*100;
 }
 
-print_r($classPercentage);
+//display class percentage in dials
+echo '<div class="row">';
+foreach($classPercentage as $class => $percentage){
+    echo '  <div class="col-6 col-md-3 text-center">
+                <input type="text" class="knob" value="'.round($percentage,2).'" data-width="90" data-height="90"
+                    data-fgColor="#3c8dbc" data-readOnly="true" data-thickness=".4">
+
+                <div class="knob-label">Class '.$class.'</div>
+            </div>';
+}
+echo '</div>';
 ?>
