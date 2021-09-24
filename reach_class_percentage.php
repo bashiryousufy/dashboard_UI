@@ -71,14 +71,42 @@ foreach($hcpCLassNotObject as $key => $value){
 }
 
 //display class percentage in dials
-echo '<div class="row">';
+$htmlClassPercentage = array();
 foreach($classPercentage as $class => $percentage){
-    echo '  <div class="col-6 col-md-3 text-center">
+    $htmlClassPercentage['class-'.$class] = '<div class="col-6 col-md-3 text-center">
                 <input type="text" class="knob" value="'.round($percentage,2).'" data-width="90" data-height="90"
                     data-fgColor="#3c8dbc" data-readOnly="true" data-thickness=".4">
-
                 <div class="knob-label">Class '.$class.'</div>
             </div>';
 }
-echo '</div>';
+
+//Calculate frequency for each class
+$freqClass = array();
+foreach($hcpCLassNotObject as $class => $calls){
+    $freqClass[$class] = $calls/($dailyTarget*$DateRange);
+}
+
+//display class frequency
+$htmlclassfreq = array();
+foreach($freqClass as $class => $freq){
+    $htmlclassfreq['freq-'.$class] = '<div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box bg-secondary" id="prev5DayColor">
+                                <div class="inner" id="pre5">
+                                    <h3 id="prev5DayCR">'.round($freq,5).'</h3>
+
+                                    <p>'.$class.'</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-stats-bars"></i>
+                                </div>
+                            </div>
+                        </div>';
+}
+
+$combinedClassAndFreq = $htmlClassPercentage + $htmlclassfreq;
+
+foreach($combinedClassAndFreq as $classFreq){
+    echo $classFreq;
+}
 ?>

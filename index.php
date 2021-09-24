@@ -170,22 +170,7 @@ $callTarget = $conn->teamCallTarget($teamID);
                                 <!-- /.card-header -->
                                 <div class="card-body">
 
-                                    <div class="row">
-                                        <div class="col-6 col-md-3 text-center">
-                                            <input type="text" class="knob" value="0.92" data-width="90"
-                                                data-height="90" data-fgColor="#3c8dbc" data-readOnly="true"
-                                                data-thickness=".4">
-
-                                            <div class="knob-label">Class A</div>
-                                        </div>
-                                        <div class="col-6 col-md-3 text-center">
-                                            <input type="text" class="knob" value="0.92" data-width="90"
-                                                data-height="90" data-fgColor="#3c8dbc" data-readOnly="true"
-                                                data-thickness=".4">
-
-                                            <div class="knob-label">Class B</div>
-                                        </div>
-                                    </div>
+                                    <div id="reachClass"></div>
 
                                 </div>
                                 <!-- /.card -->
@@ -276,28 +261,12 @@ $callTarget = $conn->teamCallTarget($teamID);
             });
         }
         </script>
-
-        </script>
+        <!-- jQuery Knob Chart -->
+        <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
         <!-- Bootstrap 4 -->
         <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
         <!-- ChartJS -->
         <script src="plugins/chart.js/Chart.min.js"></script>
-        <!-- Sparkline -->
-        <script src="plugins/sparklines/sparkline.js"></script>
-        <!-- JQVMap -->
-        <script src="plugins/jqvmap/jquery.vmap.min.js"></script>
-        <script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-        <!-- jQuery Knob Chart -->
-        <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
-        <!-- daterangepicker -->
-        <script src="plugins/moment/moment.min.js"></script>
-        <script src="plugins/daterangepicker/daterangepicker.js"></script>
-        <!-- Tempusdominus Bootstrap 4 -->
-        <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-        <!-- Summernote -->
-        <script src="plugins/summernote/summernote-bs4.min.js"></script>
-        <!-- overlayScrollbars -->
-        <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
         <!-- AdminLTE App -->
         <script src="dist/js/adminlte.js"></script>
         <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
