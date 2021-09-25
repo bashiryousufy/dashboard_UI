@@ -30,19 +30,8 @@ $callTarget = $conn->teamCallTarget($teamID);
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-    <!-- iCheck -->
-    <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <!-- JQVMap -->
-    <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
-    <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-    <!-- Daterange picker -->
-    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
-    <!-- summernote -->
-    <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
-
 
 </head>
 
@@ -170,16 +159,18 @@ $callTarget = $conn->teamCallTarget($teamID);
                                 <!-- /.card-header -->
                                 <div class="card-body">
 
-                                    <div id="reachClass"></div>
+                                    <div class="row">
 
+                                        <div id="classReach"></div>
+                                        <!-- ./col -->
+                                    </div>
+                                    <!-- /.card -->
                                 </div>
-                                <!-- /.card -->
+                                <!-- /.col -->
                             </div>
-                            <!-- /.col -->
+                            <!-- /.row -->
                         </div>
-                        <!-- /.row -->
                     </div>
-                </div>
             </section>
 
             <hr>
@@ -205,10 +196,57 @@ $callTarget = $conn->teamCallTarget($teamID);
 
                                 <!-- /.card-header -->
                                 <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6 col-md-3 text-center">
+                                            <input type="text" class="knob" value="30" data-width="90" data-height="90"
+                                                data-fgColor="#3c8dbc">
 
-                                    <div id="freqClass"></div>
+                                            <div class="knob-label">New Visitors</div>
+                                        </div>
+                                        <!-- ./col -->
+                                        <div class="col-6 col-md-3 text-center">
+                                            <input type="text" class="knob" value="70" data-width="90" data-height="90"
+                                                data-fgColor="#f56954">
 
+                                            <div class="knob-label">Bounce Rate</div>
+                                        </div>
+                                        <!-- ./col -->
+                                        <div class="col-6 col-md-3 text-center">
+                                            <input type="text" class="knob" value="-80" data-min="-150" data-max="150"
+                                                data-width="90" data-height="90" data-fgColor="#00a65a">
+
+                                            <div class="knob-label">Server Load</div>
+                                        </div>
+                                        <!-- ./col -->
+                                        <div class="col-6 col-md-3 text-center">
+                                            <input type="text" class="knob" value="40" data-width="90" data-height="90"
+                                                data-fgColor="#00c0ef">
+
+                                            <div class="knob-label">Disk Space</div>
+                                        </div>
+                                        <!-- ./col -->
+                                    </div>
+                                    <!-- /.row -->
+
+                                    <div class="row">
+                                        <div class="col-6 text-center">
+                                            <input type="text" class="knob" value="90" data-width="90" data-height="90"
+                                                data-fgColor="#932ab6">
+
+                                            <div class="knob-label">Bandwidth</div>
+                                        </div>
+                                        <!-- ./col -->
+                                        <div class="col-6 text-center">
+                                            <input type="text" class="knob" value="50" data-width="90" data-height="90"
+                                                data-fgColor="#39CCCC">
+
+                                            <div class="knob-label">CPU</div>
+                                        </div>
+                                        <!-- ./col -->
+                                    </div>
+                                    <!-- /.row -->
                                 </div>
+                                <!-- /.card-body -->
                                 <!-- /.card -->
                             </div>
                             <!-- /.col -->
@@ -243,6 +281,25 @@ $callTarget = $conn->teamCallTarget($teamID);
         <script>
         $.widget.bridge('uibutton', $.ui.button)
         </script>
+        <!-- Bootstrap 4 -->
+        <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- jQuery Knob Chart -->
+        <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
+        <!-- daterangepicker -->
+        <script src="plugins/moment/moment.min.js"></script>
+        <script src="plugins/daterangepicker/daterangepicker.js"></script>
+
+        <!-- Summernote -->
+        <script src="plugins/summernote/summernote-bs4.min.js"></script>
+
+        <!-- AdminLTE App -->
+        <script src="dist/js/adminlte.js"></script>
+        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+        <script src="dist/js/pages/dashboard.js"></script>
+
+
+
 
         <!-- Getting Call Rate -->
         <script type="text/javascript">
@@ -270,7 +327,7 @@ $callTarget = $conn->teamCallTarget($teamID);
                     success: function(response) {
                         $('#kpi_cr').html(response);
                         getReachClass(selectedUserID);
-                        getFreqClass(selectedUserID);
+
                     }
 
                 });
@@ -291,27 +348,30 @@ $callTarget = $conn->teamCallTarget($teamID);
                 url: "reach_class_percentage.php",
                 cache: false,
                 success: function(response) {
+                    let classArray = [];
+                    response['class'].forEach(function(items) {
+                        classArray.push(items);
+                    });
 
-                    $('#reachClass').append(response['class']);
+                    let reachClassObject = {};
+                    for (const reachClass of classArray) {
+                        reachClassObject = reachClass;
+                    }
+
+                    console.log(Object.keys(reachClassObject).length);
+                    // for (const key in reachClassObject) {
+
+                    // }
+
+                    //create div elements and then add attributes using js
+
+
 
                 }
 
             });
         }
         </script>
-        <!-- jQuery Knob Chart -->
-        <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
-        <!-- Bootstrap 4 -->
-        <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <!-- ChartJS -->
-        <script src="plugins/chart.js/Chart.min.js"></script>
-        <!-- AdminLTE App -->
-        <script src="dist/js/adminlte.js"></script>
-        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        <script src="dist/js/pages/dashboard.js"></script>
-
-
-
 
 
 </body>
