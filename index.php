@@ -157,7 +157,7 @@ $callTarget = $conn->teamCallTarget($teamID);
                                 <div class="card-header">
                                     <h3 class="card-title">
                                         <i class="far fa-chart-bar"></i>
-                                        Reach for Different Class
+                                        Reach % for Different Class
                                     </h3>
 
                                     <div class="card-tools">
@@ -171,6 +171,42 @@ $callTarget = $conn->teamCallTarget($teamID);
                                 <div class="card-body">
 
                                     <div id="reachClass"></div>
+
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                </div>
+            </section>
+
+            <hr>
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- jQuery Knob -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <i class="far fa-chart-bar"></i>
+                                        Frequency for Different Class
+                                    </h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- /.card-header -->
+                                <div class="card-body">
+
+                                    <div id="freqClass"></div>
 
                                 </div>
                                 <!-- /.card -->
@@ -233,7 +269,8 @@ $callTarget = $conn->teamCallTarget($teamID);
                     cache: false,
                     success: function(response) {
                         $('#kpi_cr').html(response);
-                        getReacClass(selectedUserID);
+                        getReachClass(selectedUserID);
+                        getFreqClass(selectedUserID);
                     }
 
                 });
@@ -243,9 +280,10 @@ $callTarget = $conn->teamCallTarget($teamID);
 
         });
 
-        function getReacClass(selectedUserID) {
+        function getReachClass(selectedUserID) {
             $.ajax({
                 type: "POST",
+                dataType: "JSON",
                 data: {
                     userID: selectedUserID,
                     teamID: 1,
@@ -254,7 +292,7 @@ $callTarget = $conn->teamCallTarget($teamID);
                 cache: false,
                 success: function(response) {
 
-                    $('#reachClass').html(response);
+                    $('#reachClass').append(response['class']);
 
                 }
 

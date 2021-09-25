@@ -67,46 +67,25 @@ $dailyTarget = $conn->getDailyTargetCalls($territoryConfigID);
 // Calculating % reach for each class
 $classPercentage = array();
 foreach($hcpCLassNotObject as $key => $value){
-    $classPercentage[$key] = ($value/($DateRange*$dailyTarget))*100;
+    $classPercentage['class-'.$key] = round(($value/($DateRange*$dailyTarget))*100,4);
 }
 
-//display class percentage in dials
-$htmlClassPercentage = array();
-foreach($classPercentage as $class => $percentage){
-    $htmlClassPercentage['class-'.$class] = '<div class="col-6 col-md-3 text-center">
-                <input type="text" class="knob" value="'.round($percentage,2).'" data-width="90" data-height="90"
-                    data-fgColor="#3c8dbc" data-readOnly="true" data-thickness=".4">
-                <div class="knob-label">Class '.$class.'</div>
-            </div>';
-}
 
 //Calculate frequency for each class
 $freqClass = array();
 foreach($hcpCLassNotObject as $class => $calls){
-    $freqClass[$class] = $calls/($dailyTarget*$DateRange);
+    $freqClass['freq-'.$class] = round($calls/($dailyTarget*$DateRange),4);
 }
 
-//display class frequency
-$htmlclassfreq = array();
-foreach($freqClass as $class => $freq){
-    $htmlclassfreq['freq-'.$class] = '<div class="col-lg-3 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-secondary" id="prev5DayColor">
-                                <div class="inner" id="pre5">
-                                    <h3 id="prev5DayCR">'.round($freq,5).'</h3>
 
-                                    <p>'.$class.'</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-stats-bars"></i>
-                                </div>
-                            </div>
-                        </div>';
-}
 
-$combinedClassAndFreq = $htmlClassPercentage + $htmlclassfreq;
 
-foreach($combinedClassAndFreq as $classFreq){
-    echo $classFreq;
-}
+$combinedArray = Array(
+    "class" => array($classPercentage),
+    "freq" => array($freqClass)
+);
+
+echo json_encode($combinedArray);
+
+
 ?>
