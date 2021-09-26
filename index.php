@@ -32,6 +32,23 @@ $callTarget = $conn->teamCallTarget($teamID);
     <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <style>
+    .custom_knob {
+        width: 49px;
+        height: 30px;
+        position: absolute;
+        vertical-align: middle;
+        margin-top: 30px;
+        margin-left: -69px;
+        border: 0px;
+        background: none;
+        font: bold 18px Arial;
+        text-align: center;
+        color: rgb(60, 141, 188);
+        padding: 0px;
+        appearance: none;
+    }
+    </style>
 
 </head>
 
@@ -197,51 +214,7 @@ $callTarget = $conn->teamCallTarget($teamID);
                                 <!-- /.card-header -->
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-6 col-md-3 text-center">
-                                            <input type="text" class="knob" value="30" data-width="90" data-height="90"
-                                                data-fgColor="#3c8dbc">
-
-                                            <div class="knob-label">New Visitors</div>
-                                        </div>
-                                        <!-- ./col -->
-                                        <div class="col-6 col-md-3 text-center">
-                                            <input type="text" class="knob" value="70" data-width="90" data-height="90"
-                                                data-fgColor="#f56954">
-
-                                            <div class="knob-label">Bounce Rate</div>
-                                        </div>
-                                        <!-- ./col -->
-                                        <div class="col-6 col-md-3 text-center">
-                                            <input type="text" class="knob" value="-80" data-min="-150" data-max="150"
-                                                data-width="90" data-height="90" data-fgColor="#00a65a">
-
-                                            <div class="knob-label">Server Load</div>
-                                        </div>
-                                        <!-- ./col -->
-                                        <div class="col-6 col-md-3 text-center">
-                                            <input type="text" class="knob" value="40" data-width="90" data-height="90"
-                                                data-fgColor="#00c0ef">
-
-                                            <div class="knob-label">Disk Space</div>
-                                        </div>
-                                        <!-- ./col -->
-                                    </div>
-                                    <!-- /.row -->
-
-                                    <div class="row">
-                                        <div class="col-6 text-center">
-                                            <input type="text" class="knob" value="90" data-width="90" data-height="90"
-                                                data-fgColor="#932ab6">
-
-                                            <div class="knob-label">Bandwidth</div>
-                                        </div>
-                                        <!-- ./col -->
-                                        <div class="col-6 text-center">
-                                            <input type="text" class="knob" value="50" data-width="90" data-height="90"
-                                                data-fgColor="#39CCCC">
-
-                                            <div class="knob-label">CPU</div>
-                                        </div>
+                                        <div id="freqClass"></div>
                                         <!-- ./col -->
                                     </div>
                                     <!-- /.row -->
@@ -333,13 +306,25 @@ $callTarget = $conn->teamCallTarget($teamID);
                     }
 
                     console.log(Object.keys(reachClassObject).length);
-                    var reachClassHtml = [];
                     for (const key in reachClassObject) {
                         addElement(key, reachClassObject[key], 'classReach');
                     }
 
+                    //Class Frequency
 
+                    let freqClass = [];
+                    response['freq'].forEach(function(items) {
+                        freqClass.push(items);
+                    });
 
+                    let freqClassObject = {};
+                    for (const freq of freqClass) {
+                        freqClassObject = freq;
+                    }
+
+                    for (const key in freqClassObject) {
+                        addElement(key, freqClassObject[key], 'freqClass');
+                    }
 
 
                 }
@@ -349,15 +334,16 @@ $callTarget = $conn->teamCallTarget($teamID);
 
         function addElement(key, value, id) {
             var newDiv = document.createElement("div");
-            newDiv.className = "col-6 col-md-3 text-center";
+            //newDiv.className = "col-6 col-md-3 text-center";
 
             var inputField = document.createElement("input");
             inputField.setAttribute("type", "text");
             inputField.setAttribute("value", value);
-            inputField.className = "knob";
+            //inputField.className = "knob custom_knob";
             inputField.setAttribute("data-width", "90");
             inputField.setAttribute("data-height", "90");
             inputField.setAttribute("data-fgColor", "#00c0ef");
+
 
             var title = document.createElement('div');
             title.className = 'knob-label';
