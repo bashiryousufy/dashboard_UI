@@ -275,32 +275,6 @@ $callTarget = $conn->teamCallTarget($teamID);
 
         <!-- jQuery -->
         <script src="plugins/jquery/jquery.min.js"></script>
-        <!-- jQuery UI 1.11.4 -->
-        <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-        <script>
-        $.widget.bridge('uibutton', $.ui.button)
-        </script>
-        <!-- Bootstrap 4 -->
-        <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-        <!-- jQuery Knob Chart -->
-        <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
-        <!-- daterangepicker -->
-        <script src="plugins/moment/moment.min.js"></script>
-        <script src="plugins/daterangepicker/daterangepicker.js"></script>
-
-        <!-- Summernote -->
-        <script src="plugins/summernote/summernote-bs4.min.js"></script>
-
-        <!-- AdminLTE App -->
-        <script src="dist/js/adminlte.js"></script>
-        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        <script src="dist/js/pages/dashboard.js"></script>
-
-
-
-
         <!-- Getting Call Rate -->
         <script type="text/javascript">
         $("#userID").on("change", function(e) {
@@ -359,11 +333,12 @@ $callTarget = $conn->teamCallTarget($teamID);
                     }
 
                     console.log(Object.keys(reachClassObject).length);
-                    // for (const key in reachClassObject) {
+                    var reachClassHtml = [];
+                    for (const key in reachClassObject) {
+                        addElement(key, reachClassObject[key], 'classReach');
+                    }
 
-                    // }
 
-                    //create div elements and then add attributes using js
 
 
 
@@ -371,7 +346,59 @@ $callTarget = $conn->teamCallTarget($teamID);
 
             });
         }
+
+        function addElement(key, value, id) {
+            var newDiv = document.createElement("div");
+            newDiv.className = "col-6 col-md-3 text-center";
+
+            var inputField = document.createElement("input");
+            inputField.setAttribute("type", "text");
+            inputField.setAttribute("value", value);
+            inputField.className = "knob";
+            inputField.setAttribute("data-width", "90");
+            inputField.setAttribute("data-height", "90");
+            inputField.setAttribute("data-fgColor", "#00c0ef");
+
+            var title = document.createElement('div');
+            title.className = 'knob-label';
+            var reachClassName = document.createTextNode(key);
+
+            title.appendChild(reachClassName);
+
+
+            newDiv.appendChild(inputField);
+            newDiv.appendChild(title);
+            var currentDiv = document.getElementById(id);
+            currentDiv.insertBefore(newDiv, null);
+        }
         </script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <script>
+        $.widget.bridge('uibutton', $.ui.button)
+        </script>
+        <!-- Bootstrap 4 -->
+        <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- jQuery Knob Chart -->
+        <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
+        <!-- daterangepicker -->
+        <script src="plugins/moment/moment.min.js"></script>
+        <script src="plugins/daterangepicker/daterangepicker.js"></script>
+
+        <!-- Summernote -->
+        <script src="plugins/summernote/summernote-bs4.min.js"></script>
+
+        <!-- AdminLTE App -->
+        <script src="dist/js/adminlte.js"></script>
+        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+        <script src="dist/js/pages/dashboard.js"></script>
+
+
+
+
+
 
 
 </body>
