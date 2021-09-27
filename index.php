@@ -176,11 +176,11 @@ $callTarget = $conn->teamCallTarget($teamID);
                                 <!-- /.card-header -->
                                 <div class="card-body">
 
-                                    <div class="row">
 
-                                        <div id="classReach"></div>
-                                        <!-- ./col -->
-                                    </div>
+
+                                    <div id="classReach" class="row"></div>
+                                    <!-- ./col -->
+
                                     <!-- /.card -->
                                 </div>
                                 <!-- /.col -->
@@ -213,10 +213,10 @@ $callTarget = $conn->teamCallTarget($teamID);
 
                                 <!-- /.card-header -->
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div id="freqClass"></div>
-                                        <!-- ./col -->
-                                    </div>
+
+                                    <div id="freqClass" class="row"></div>
+                                    <!-- ./col -->
+
                                     <!-- /.row -->
                                 </div>
                                 <!-- /.card-body -->
@@ -248,6 +248,8 @@ $callTarget = $conn->teamCallTarget($teamID);
 
         <!-- jQuery -->
         <script src="plugins/jquery/jquery.min.js"></script>
+        <script src="dist\js\circle-progress.min.js"></script>
+
         <!-- Getting Call Rate -->
         <script type="text/javascript">
         $("#userID").on("change", function(e) {
@@ -301,62 +303,122 @@ $callTarget = $conn->teamCallTarget($teamID);
                     });
 
                     let reachClassObject = {};
-                    for (const reachClass of classArray) {
+                    for (var reachClass of classArray) {
                         reachClassObject = reachClass;
                     }
 
-                    console.log(Object.keys(reachClassObject).length);
-                    for (const key in reachClassObject) {
-                        addElement(key, reachClassObject[key], 'classReach');
+                    let htmlClassReach = [];
+                    for (var key in reachClassObject) {
+                        //addElement(key, reachClassObject[key], 'classReach');
+                        addCircleProgress(reachClassObject[key] / 100, '#classReach');
                     }
 
-                    //Class Frequency
 
+                    //Class Frequency
                     let freqClass = [];
                     response['freq'].forEach(function(items) {
                         freqClass.push(items);
                     });
 
                     let freqClassObject = {};
-                    for (const freq of freqClass) {
+                    for (var freq of freqClass) {
                         freqClassObject = freq;
                     }
-
+                    console.log(freqClassObject);
+                    $("#freqClass").empty();
                     for (const key in freqClassObject) {
-                        addElement(key, freqClassObject[key], 'freqClass');
+                        //addElement(key, freqClassObject[key], 'freqClass');
+                        createNumberBlock(key, freqClassObject[key]);
                     }
+
 
 
                 }
 
             });
         }
+        // <div class="small-box bg-light">
+        //                         <div class="inner">
+        //                             <h3 id="prevDayCR">-</h3>
 
-        function addElement(key, value, id) {
-            var newDiv = document.createElement("div");
-            //newDiv.className = "col-6 col-md-3 text-center";
+        //                             <p>Yesterday's CR</p>
+        //                         </div>
+        //                         <div class="icon">
+        //                             <i class="ion ion-android-call"></i>
+        //                         </div>
 
-            var inputField = document.createElement("input");
-            inputField.setAttribute("type", "text");
-            inputField.setAttribute("value", value);
-            //inputField.className = "knob custom_knob";
-            inputField.setAttribute("data-width", "90");
-            inputField.setAttribute("data-height", "90");
-            inputField.setAttribute("data-fgColor", "#00c0ef");
+        //                     </div>
 
+        function createNumberBlock(key, value) {
+            var outerMostDiv = document.createElement("div");
+            outerMostDiv.className = 'col-lg-3 col-6';
 
-            var title = document.createElement('div');
-            title.className = 'knob-label';
-            var reachClassName = document.createTextNode(key);
+            var outterDiv = document.createElement("div");
+            outterDiv.className = "small-box bg-light";
 
-            title.appendChild(reachClassName);
+            outterDiv.setAttribute("id", "freqClassBlock");
 
+            var innerDiv = document.createElement("div");
+            innerDiv.className = 'inner';
 
-            newDiv.appendChild(inputField);
-            newDiv.appendChild(title);
-            var currentDiv = document.getElementById(id);
-            currentDiv.insertBefore(newDiv, null);
+            var textValue = document.createElement('h3');
+            var t = document.createTextNode(value);
+            textValue.appendChild(t);
+
+            var title = document.createElement('p');
+            var subT = document.createTextNode(key);
+            title.appendChild(subT);
+
+            innerDiv.appendChild(textValue);
+            innerDiv.appendChild(title);
+
+            outterDiv.appendChild(innerDiv);
+
+            outerMostDiv.appendChild(outterDiv);
+
+            var currentDiv = document.getElementById('freqClass');
+
+            currentDiv.insertBefore(outerMostDiv, null);
+
         }
+
+        function addCircleProgress(value, id) {
+            $(id).circleProgress({
+                value: value,
+                size: 80,
+                fill: {
+                    gradient: ["red", "orange"]
+                }
+            });
+        }
+
+
+        // function addElement(key, value, id) {
+        //     var newDiv = document.createElement("div");
+        //     //newDiv.className = "col-6 col-md-3 text-center";
+
+        //     var inputField = document.createElement("input");
+        //     inputField.setAttribute("type", "text");
+        //     inputField.setAttribute("value", value);
+        //     inputField.className = "knob";
+        //     inputField.setAttribute("data-width", "90");
+        //     inputField.setAttribute("data-height", "90");
+        //     inputField.setAttribute("data-fgColor", "#00c0ef");
+        //     inputField.setAttribute("id", "inputStyle")
+
+
+        //     var title = document.createElement('div');
+        //     title.className = 'knob-label';
+        //     var reachClassName = document.createTextNode(key);
+
+        //     title.empty.appendChild(reachClassName);
+
+
+        //     newDiv.empty.appendChild(inputField);
+        //     newDiv.empty.appendChild(title);
+        //     var currentDiv = document.getElementById(id);
+        //     currentDiv.insertBefore(newDiv, null);
+        // }
         </script>
         <!-- jQuery UI 1.11.4 -->
         <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
