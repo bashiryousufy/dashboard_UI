@@ -297,6 +297,7 @@ $callTarget = $conn->teamCallTarget($teamID);
                 url: "reach_class_percentage.php",
                 cache: false,
                 success: function(response) {
+                    // Reach Class
                     let classArray = [];
                     response['class'].forEach(function(items) {
                         classArray.push(items);
@@ -331,7 +332,9 @@ $callTarget = $conn->teamCallTarget($teamID);
                         createNumberBlock(key, freqClassObject[key]);
                     }
 
+                    var avg_freq = response['avg-freq'];
 
+                    //change block color based on the avg freq value
 
                 }
 

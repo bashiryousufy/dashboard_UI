@@ -77,12 +77,13 @@ foreach($hcpCLassNotObject as $class => $calls){
     $freqClass['freq-'.$class] = round($calls/($dailyTarget*$DateRange),4);
 }
 
-
+$avgFreqClass = round($dailyTarget/$DateRange,4);
 
 
 $combinedArray = Array(
     "class" => array($classPercentage),
-    "freq" => array($freqClass)
+    "freq" => array($freqClass),
+    "avg-freq" => $avgFreqClass
 );
 
 echo json_encode($combinedArray);
