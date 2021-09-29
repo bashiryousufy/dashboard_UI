@@ -32,23 +32,8 @@ $callTarget = $conn->teamCallTarget($teamID);
     <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
-    <style>
-    .custom_knob {
-        width: 49px;
-        height: 30px;
-        position: absolute;
-        vertical-align: middle;
-        margin-top: 30px;
-        margin-left: -69px;
-        border: 0px;
-        background: none;
-        font: bold 18px Arial;
-        text-align: center;
-        color: rgb(60, 141, 188);
-        padding: 0px;
-        appearance: none;
-    }
-    </style>
+
+
 
 </head>
 
@@ -178,7 +163,10 @@ $callTarget = $conn->teamCallTarget($teamID);
 
 
 
-                                    <div id="classReach" class="row"></div>
+                                    <div id="classReach" class="row">
+
+
+                                    </div>
                                     <!-- ./col -->
 
                                     <!-- /.card -->
@@ -250,6 +238,7 @@ $callTarget = $conn->teamCallTarget($teamID);
         <script src="plugins/jquery/jquery.min.js"></script>
         <script src="dist\js\circle-progress.min.js"></script>
 
+
         <!-- Getting Call Rate -->
         <script type="text/javascript">
         $("#userID").on("change", function(e) {
@@ -307,10 +296,13 @@ $callTarget = $conn->teamCallTarget($teamID);
                     for (var reachClass of classArray) {
                         reachClassObject = reachClass;
                     }
-
-                    let htmlClassReach = [];
+                    $('#classReach').empty();
                     for (var key in reachClassObject) {
-                        addCircleProgress(reachClassObject[key] / 100, '#classReach');
+                        createEmptyDiv(key);
+                    }
+                    $('#classReach').hide().show(0);
+                    for (var key in reachClassObject) {
+                        addCircleProgress(reachClassObject[key] / 100, key);
                     }
 
 
@@ -327,30 +319,59 @@ $callTarget = $conn->teamCallTarget($teamID);
 
                     $("#freqClass").empty();
                     var avg_freq = response['avg-freq'];
-                    console.log(avg_freq);
                     for (const key in freqClassObject) {
+                        //change block color based on the avg freq value
                         if (freqClassObject[key] >= avg_freq) {
-                            console.log('green');
+
                             createNumberBlock(key, freqClassObject[key], 'bg-success');
                         } else if (freqClassObject[key] >= (avg_freq / 2) && freqClassObject[key] <
                             avg_freq) {
                             createNumberBlock(key, freqClassObject[key], 'bg-danger');
-                            console.log('red');
+
 
                         } else if (freqClassObject[key] < (avg_freq / 2)) {
                             createNumberBlock(key, freqClassObject[key], 'bg-warning');
-                            console.log('orange');
 
                         }
                     }
 
 
 
-                    //change block color based on the avg freq value
+
 
                 }
 
             });
+        }
+
+        function addCircleProgress(value, id) {
+            let divID = document.getElementById(id);
+            $(divID).circleProgress({
+                value: value,
+                size: 100,
+                fill: {
+                    gradient: ["red", "orange"]
+                }
+            });
+
+
+
+        }
+
+        function createEmptyDiv(id) {
+            let outterDiv = document.createElement('div');
+
+
+            let newDiv = document.createElement('div');
+            newDiv.setAttribute('id', id);
+
+            let title = document.createTextNode(id);
+            newDiv.appendChild(title);
+
+            outterDiv.appendChild(newDiv);
+
+            let currentDiv = document.getElementById('classReach');
+            currentDiv.appendChild(outterDiv);
         }
 
         function createNumberBlock(key, value, color) {
@@ -386,15 +407,7 @@ $callTarget = $conn->teamCallTarget($teamID);
 
         }
 
-        function addCircleProgress(value, id) {
-            $(id).circleProgress({
-                value: value,
-                size: 80,
-                fill: {
-                    gradient: ["red", "orange"]
-                }
-            });
-        }
+
 
 
         // function addElement(key, value, id) {
@@ -424,6 +437,7 @@ $callTarget = $conn->teamCallTarget($teamID);
         //     currentDiv.insertBefore(newDiv, null);
         // }
         </script>
+
         <!-- jQuery UI 1.11.4 -->
         <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
         <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
