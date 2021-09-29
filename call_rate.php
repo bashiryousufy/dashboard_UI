@@ -28,10 +28,10 @@ if ($oneDayOffFieldDuration > 0) {
 
         if($PrevCR >= $calltarget){
             $prevCRColor = 'bg-success';
-        }else if($PrevCR < $calltarget && $PrevCR < $halfPrevCR ){
-            $prevCRColor = 'bg-danger';
-        }else{
+        }else if($PrevCR < $calltarget && $PrevCR >= $halfPrevCR ){
             $prevCRColor = 'bg-warning';
+        }elseif($PrevCR < $halfPrevCR){
+            $prevCRColor = 'bg-danger';
 
         }
     }
@@ -60,10 +60,10 @@ if ($fiveDayOffFieldDuration > 0 && $fiveDayOffFieldDuration <= 5) {
 
     if ($fiveDays >= $fiveDayCallTarget) {
         $prev5CRColor = 'bg-success';
-    } elseif ($fiveDays < $fiveDayCallTarget && $fiveDays < $half5Days ) {
-        $prev5CRColor = 'bg-danger';
-    } else{
-        $prev5CRColor =  'bg-warning';
+    } elseif ($fiveDays < $fiveDayCallTarget && $fiveDays >= $half5Days ) {
+        $prev5CRColor = 'bg-warning';
+    } elseif($fiveDays < $half5Days){
+        $prev5CRColor =  'bg-danger';
 
         }
 
@@ -97,11 +97,10 @@ if ($cycle > 0) {
         $cycleCallRate = round(($totalCycleCalls/$onFieldCycleDuration)/$divideNum, 3);
         if ($cycleCallRate >= $cycleCRTarget) {
             $prevCycleCRColor = 'bg-success';
-        } elseif ($cycleCallRate < $cycleCRTarget && $cycleCallRate < $cycleHalf  ) {
-            $prevCycleCRColor = 'bg-danger';
-        }else{
+        } elseif ($cycleCallRate < $cycleCRTarget && $cycleCallRate >= $cycleHalf  ) {
             $prevCycleCRColor = 'bg-warning';
-
+        }elseif($cycleCallRate < $cycleHalf){
+            $prevCycleCRColor = 'bg-danger';
         }
 
     }
