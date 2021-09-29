@@ -310,7 +310,6 @@ $callTarget = $conn->teamCallTarget($teamID);
 
                     let htmlClassReach = [];
                     for (var key in reachClassObject) {
-                        //addElement(key, reachClassObject[key], 'classReach');
                         addCircleProgress(reachClassObject[key] / 100, '#classReach');
                     }
 
@@ -325,14 +324,27 @@ $callTarget = $conn->teamCallTarget($teamID);
                     for (var freq of freqClass) {
                         freqClassObject = freq;
                     }
-                    console.log(freqClassObject);
+
                     $("#freqClass").empty();
+                    var avg_freq = response['avg-freq'];
+                    console.log(avg_freq);
                     for (const key in freqClassObject) {
-                        //addElement(key, freqClassObject[key], 'freqClass');
-                        createNumberBlock(key, freqClassObject[key]);
+                        if (freqClassObject[key] >= avg_freq) {
+                            console.log('green');
+                            createNumberBlock(key, freqClassObject[key], 'bg-success');
+                        } else if (freqClassObject[key] >= (avg_freq / 2) && freqClassObject[key] <
+                            avg_freq) {
+                            createNumberBlock(key, freqClassObject[key], 'bg-danger');
+                            console.log('red');
+
+                        } else if (freqClassObject[key] < (avg_freq / 2)) {
+                            createNumberBlock(key, freqClassObject[key], 'bg-warning');
+                            console.log('orange');
+
+                        }
                     }
 
-                    var avg_freq = response['avg-freq'];
+
 
                     //change block color based on the avg freq value
 
@@ -340,24 +352,13 @@ $callTarget = $conn->teamCallTarget($teamID);
 
             });
         }
-        // <div class="small-box bg-light">
-        //                         <div class="inner">
-        //                             <h3 id="prevDayCR">-</h3>
 
-        //                             <p>Yesterday's CR</p>
-        //                         </div>
-        //                         <div class="icon">
-        //                             <i class="ion ion-android-call"></i>
-        //                         </div>
-
-        //                     </div>
-
-        function createNumberBlock(key, value) {
+        function createNumberBlock(key, value, color) {
             var outerMostDiv = document.createElement("div");
             outerMostDiv.className = 'col-lg-3 col-6';
 
             var outterDiv = document.createElement("div");
-            outterDiv.className = "small-box bg-light";
+            outterDiv.className = "small-box " + color;
 
             outterDiv.setAttribute("id", "freqClassBlock");
 
