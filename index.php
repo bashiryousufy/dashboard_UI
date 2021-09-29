@@ -348,10 +348,12 @@ $callTarget = $conn->teamCallTarget($teamID);
             let divID = document.getElementById(id);
             $(divID).circleProgress({
                 value: value,
-                size: 100,
+                size: 150,
                 fill: {
                     gradient: ["red", "orange"]
                 }
+            }).on('circle-animation-progress', function(event, progress, stopValue) {
+                $(this).parent().find("strong").text(String(stopValue.toFixed(2).substr(2)) + '%');
             });
 
 
@@ -360,13 +362,26 @@ $callTarget = $conn->teamCallTarget($teamID);
 
         function createEmptyDiv(id) {
             let outterDiv = document.createElement('div');
+            outterDiv.style.cssText = 'margin: 20px;';
 
 
             let newDiv = document.createElement('div');
             newDiv.setAttribute('id', id);
+            newDiv.style.cssText = 'position: relative;';
 
+            let percentage = document.createElement('strong');
+            percentage.style.cssText =
+                'position: absolute; top: 50px; left: 0px; width: 100%; text-align: center; line-height: 40px; font-size: 30px;';
+
+            let titleNode = document.createElement('span');
             let title = document.createTextNode(id);
-            newDiv.appendChild(title);
+            titleNode.style.cssText = 'display: block; color: red; margin-top: 12px; margin-left: 45px;';
+
+            titleNode.appendChild(title);
+
+            newDiv.appendChild(percentage)
+            newDiv.appendChild(titleNode);
+
 
             outterDiv.appendChild(newDiv);
 
