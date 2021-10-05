@@ -147,8 +147,8 @@ $callTarget = $conn->teamCallTarget($teamID);
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">
-                                        <i class="far fa-chart-bar"></i>
-                                        Reach % for Different Class
+                                        <i class="fas fa-chart-pie"></i>
+                                        Reach % for Different Class V1
                                     </h3>
 
                                     <div class="card-tools">
@@ -176,6 +176,48 @@ $callTarget = $conn->teamCallTarget($teamID);
                             <!-- /.row -->
                         </div>
                     </div>
+            </section>
+            <hr>
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- jQuery Knob -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <i class="far fa-chart-bar"></i>
+                                        Reach % for Different Class V2
+                                    </h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- /.card-header -->
+                                <div class="card-body">
+
+
+
+                                    <div>
+                                        <canvas id="myChart"></canvas>
+                                    </div>
+
+
+                                </div>
+                                <!-- ./col -->
+
+                                <!-- /.card -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                </div>
             </section>
 
             <hr>
@@ -222,8 +264,6 @@ $callTarget = $conn->teamCallTarget($teamID);
 
 
 
-
-
             <!-- Control Sidebar -->
             <aside class="control-sidebar control-sidebar-dark">
                 <!-- Control sidebar content goes here -->
@@ -233,10 +273,13 @@ $callTarget = $conn->teamCallTarget($teamID);
         <!-- ./wrapper -->
         <?php include 'components/footer.php';?>
 
-
+        <!-- chart js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <!-- jQuery -->
         <script src="plugins/jquery/jquery.min.js"></script>
         <script src="dist\js\circle-progress.min.js"></script>
+
+
 
         <!-- Getting Call Rate -->
         <script type="text/javascript" src="dist/js/call_rate.js"></script>
@@ -252,7 +295,36 @@ $callTarget = $conn->teamCallTarget($teamID);
         <!-- AdminLTE App -->
         <script src="dist/js/adminlte.js"></script>
 
+        <script>
+        // === include 'setup' then 'config' above ===
+        const labels = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+        ];
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Reach Class %',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [0, 10, 5, 2, 20, 30, 45],
+            }]
+        };
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {}
+        };
 
+        var myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+        </script>
 
 
 
