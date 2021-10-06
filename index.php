@@ -203,8 +203,8 @@ $callTarget = $conn->teamCallTarget($teamID);
 
 
 
-                                    <div>
-                                        <canvas id="myChart"></canvas>
+                                    <div id="barCharDiv">
+                                        <canvas id="reachClassBarChart"></canvas>
                                     </div>
 
 

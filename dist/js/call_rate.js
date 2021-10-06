@@ -55,13 +55,24 @@ function getReachClass(selectedUserID) {
 
             let classNameArray = [];
             let classValueArray = [];
-            $('#classReach').hide().show(0);
+            $('#classReach')
+                .hide()
+                .show(0);
             for (var key in reachClassObject) {
                 addCircleProgress(reachClassObject[key] / 100, key);
                 classNameArray.push(key);
                 classValueArray.push(reachClassObject[key]);
             }
-            barChart(classNameArray, classValueArray);
+            //creating bar chart
+            
+            if (isCanvasBlank(document.getElementById('reachClassBarChart'))) {
+                $("#reachClassBarChart").empty();
+                barChart(classNameArray, classValueArray);
+            } else {
+                $('#reachClassBarChart').remove();
+                $('#barCharDiv').append("<canvas id='reachClassBarChart'></canvas>");
+                barChart(classNameArray, classValueArray);
+            }
 
             //Class Frequency
             let freqClass = [];
@@ -171,6 +182,7 @@ function createNumberBlock(key, value, color) {
     currentDiv.insertBefore(outerMostDiv, null);
 }
 function barChart(label, datas) {
+
     const labels = label;
     const data = {
         labels: labels,
@@ -178,11 +190,7 @@ function barChart(label, datas) {
             {
                 label: 'Class Reach Percentage',
                 backgroundColor: randomColor(datas.length),
-                borderColor: black,
-                borderWidth: 1,
-                barPercentage: 0.5,
-                barThickness: 6,
-                maxBarThickness: 8,
+                borderColor: 'rgb(60, 60, 60)',
                 data: datas,
             },
         ],
@@ -199,17 +207,32 @@ function barChart(label, datas) {
         },
     };
 
-    const myChart = new Chart(document.getElementById('myChart'), config);
-}
 
+
+    let myChart = new Chart(document.getElementById('reachClassBarChart'), config);
+
+
+
+}
 
 function randomColor(length) {
     var colors = [];
     while (colors.length < length) {
         do {
-            var color = Math.floor((Math.random() * 1000000) + 1);
+            var color = Math.floor(Math.random() * 1000000 + 1);
         } while (colors.indexOf(color) >= 0);
-        colors.push("#" + ("000000" + color.toString(16)).slice(-6));
+        colors.push('#' + ('000000' + color.toString(16)).slice(-6));
     }
     return colors;
+}
+
+// returns true if every pixel's uint32 representation is 0 (or "blank")
+function isCanvasBlank(canvas) {
+    const context = canvas.getContext('2d');
+
+    const pixelBuffer = new Uint32Array(
+        context.getImageData(0, 0, canvas.width, canvas.height).data.buffer
+    );
+
+    return !pixelBuffer.some(color => color !== 0);
 }
