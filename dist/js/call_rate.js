@@ -55,15 +55,21 @@ $("#userID").on("change", function (e) {
                     for (var reachClass of classArray) {
                         reachClassObject = reachClass;
                     }
+                    
                     $('#classReach').empty();
                     for (var key in reachClassObject) {
                         createEmptyDiv(key);
                     }
+
+                    let classNameArray = [];
+                    let classValueArray = [];
                     $('#classReach').hide().show(0);
                     for (var key in reachClassObject) {
                         addCircleProgress(reachClassObject[key] / 100, key);
+                        classNameArray.push(key);
+                        classValueArray.push(reachClassObject[key]);
                     }
-
+                    barChart(classNameArray, classValueArray);
 
                     //Class Frequency
                     let freqClass = [];
@@ -179,4 +185,32 @@ $("#userID").on("change", function (e) {
 
             currentDiv.insertBefore(outerMostDiv, null);
 
+        }
+        function barChart(label, datas) {
+            const labels = label;
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Class Reach Percentage',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: datas,
+            }]
+        };
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            },
+        };
+
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
         }
