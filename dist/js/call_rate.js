@@ -191,6 +191,7 @@ function barChart(label, datas) {
                 label: 'Class Reach Percentage',
                 backgroundColor: randomColor(datas.length),
                 borderColor: 'rgb(60, 60, 60)',
+                borderWidth: 1,
                 data: datas,
             },
         ],
