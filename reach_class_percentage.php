@@ -74,11 +74,11 @@ $DateRange = $interval->days;
 $dailyTarget = $conn->getDailyTargetCalls($territoryConfigID);
 
 
-
+echo $dailyTarget;
 // Calculating % reach for each class
 $classPercentage = array();
 foreach($hcpCLassNotObject as $key => $value){
-    
+    echo $value;
     $classPercentage['class-'.$key] = round(($value/($DateRange*$dailyTarget))*100,4);
 }
 
