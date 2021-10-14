@@ -11,9 +11,11 @@ if(isset($_POST['userID']) && isset($_POST['teamID'])){
 //get user territory ID
 $territoryConfigID = $conn->getUserTerritoryID($userID,$teamID);
 
+
 //get block ID Array 
 $blockIDArray = $conn->getTerritoryBlockIDArray($territoryConfigID);
 $arrayOFBlockID = explode(",", $blockIDArray);
+
 
 
 //get pracPlaceIDArray 
@@ -24,18 +26,24 @@ foreach($arrayOFBlockID as $blockID){
 $arrayOFPracticePlace = explode(",",$practicePlaceArray);
 
 
+
 //get all the hcp in the user's territory
 
 foreach($arrayOFPracticePlace as $practicePlace){
     $allHcpInTerritory = $conn->getAllHCP($practicePlace);
 }
 
+
 //get primmaryProdPortfolio 
 $primaryProdOrPortfolioID = $conn->getPrimaryProdOrPortfolioID($territoryConfigID);
 
+
+
 // get hcp class
 foreach($allHcpInTerritory as $HcpID){
+    
     $hcpCLass = $conn->getHCPCLass($HcpID->hcpID,$primaryProdOrPortfolioID);
+
 }
 
 
@@ -52,6 +60,7 @@ foreach ($hcpCLass as $HC) {
     $hcpCLassNotObject[$HC->classDesc] = $conn->getTotalCallUsingHcpID($HC->hcpID);
 }
 
+
 //cycle range 
 $cycleRange = $conn->getCycleDates($userID);
 $origin = new DateTime($cycleRange->startDate);
@@ -64,11 +73,15 @@ $DateRange = $interval->days;
 //getting daily target in a territory
 $dailyTarget = $conn->getDailyTargetCalls($territoryConfigID);
 
+
+
 // Calculating % reach for each class
 $classPercentage = array();
 foreach($hcpCLassNotObject as $key => $value){
+    
     $classPercentage['class-'.$key] = round(($value/($DateRange*$dailyTarget))*100,4);
 }
+
 
 
 //Calculate frequency for each class
