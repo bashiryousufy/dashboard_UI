@@ -47,7 +47,7 @@ function getReachClass(selectedUserID) {
       for (var reachClass of classArray) {
         reachClassObject = reachClass;
       }
-
+      
       $('#classReach').empty();
       for (var key in reachClassObject) {
         createEmptyDiv(key);
