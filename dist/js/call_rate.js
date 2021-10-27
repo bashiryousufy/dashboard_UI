@@ -206,7 +206,7 @@ function barChart(label, datas) {
       plugins: {
         title: {
           display: true,
-          text: 'Class Reach Percentage %',
+          text: 'Class Reach Percentage 100%',
         },
         legend: {
           display: false,
